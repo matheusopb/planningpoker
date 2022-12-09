@@ -1,11 +1,17 @@
-import { RoomsState } from "../../../store/ducks/rooms/types"
+import { RoomsState, RoomsActions } from "../../../store/ducks/rooms/types"
+import { AuthState, AuthActions } from "../../../store/ducks/auth/types"
 
 interface StateProps {
-    roomsReducer: RoomsState
+    roomsReducer: RoomsState,
+    authReducer: AuthState,
+    actions?: {
+        authActions?: AuthActions,
+        roomsActions?: RoomsActions,
+    }
 }
 
 interface DispatchProps {
-    loadRequest(): void;
+
 }
 
 interface OwnProps {

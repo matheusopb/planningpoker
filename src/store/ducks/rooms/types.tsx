@@ -25,3 +25,7 @@ export interface RoomsState {
     readonly error: boolean
 }
 
+
+export interface RoomsActions {
+    loadRequest(): void,
+}

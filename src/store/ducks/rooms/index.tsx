@@ -14,7 +14,6 @@ const reducer: Reducer<RoomsState> = (state = INICIAL_STATE, action) => {
         case RoomsTypes.LOAD_FAILURE:
             return { ...state, loading: false, error: true, data: [] };
         case RoomsTypes.LOAD_SUCCES:
-            console.log('action.payload.data', action.payload.data)
             return { ...state, loading: false, error: true, data: action.payload };
         default:
             return state;

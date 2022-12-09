@@ -1,18 +1,25 @@
-import React from 'react';
 import Rooms from './pages/Rooms';
-import { Provider } from 'react-redux';
+import Header from './components/Header';
+import Login from './pages/Login';
+import NotFound from './pages/NotFound';
 
-import store from './store';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
 function App() {
+
+
   return (
-    <Provider store={store}>
-      <div className="App">
-        <header className="App-header">
-          {'olá mundo'}
-        </header>
-        <Rooms />
-      </div>
-    </Provider>
+    <BrowserRouter>
+
+      <Routes>
+        <Route path="/" element={<Header />}>
+          <Route index element={<Login />} />
+          <Route path="rooms" element={<Rooms />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
