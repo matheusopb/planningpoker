@@ -9,12 +9,13 @@ import { useNavigate } from 'react-router-dom';
 
 const SignIn = ({ loadRequest, authReducer }: LoginProps) => {
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
-        if (authReducer?.data) {
+        if (loading && !authReducer?.loading && authReducer?.data) {
             navigate('/rooms')
+            setLoading(false)
         }
-    }, [authReducer])
+    }, [authReducer?.data, authReducer?.loading, loading, navigate])
 
     return (
         <div>
@@ -23,6 +24,7 @@ const SignIn = ({ loadRequest, authReducer }: LoginProps) => {
                 onClick={(event) => {
                     event.preventDefault();
                     loadRequest()
+                    setLoading(true)
                 }}
             >
                 Sign In with Google

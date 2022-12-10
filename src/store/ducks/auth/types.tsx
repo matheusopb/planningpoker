@@ -8,7 +8,6 @@ export enum AuthTypes {
     LOAD_SUCCES = '@AuthTypes/LOAD_SUCCES',
     LOAD_FAILURE = '@AuthTypes/LOAD_FAILURE',
     LOAD_LOGOFF = '@AuthTypes/LOAD_LOGOFF',
-
 }
 
 /**
