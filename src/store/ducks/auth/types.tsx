@@ -5,9 +5,10 @@ import { User } from '@firebase/auth-types';
  */
 export enum AuthTypes {
     LOAD_REQUEST = '@AuthTypes/LOAD_REQUEST',
-    LOAD_SUCCES = '@AuthTypes/LOAD_SUCCES',
+    LOAD_SUCCESS = '@AuthTypes/LOAD_SUCCESS',
     LOAD_FAILURE = '@AuthTypes/LOAD_FAILURE',
     LOAD_LOGOFF = '@AuthTypes/LOAD_LOGOFF',
+    LOAD_REQUEST_CREDENTIAL = '@AuthTypes/LOAD_REQUEST_CREDENTIAL',
 }
 
 /**

@@ -11,18 +11,53 @@ function Rooms({
     authReducer,
     actions,
 }: RoomsProps) {
+
+    function click() {
+        console.log('click')
+        actions?.roomsActions?.syncData()
+    }
+
     return (
         <div>
+            {'dados dos projetos: ' + JSON.stringify(roomsReducer.data, null, 4)}
+            <br />
             <br />
             <button onClick={actions?.roomsActions?.loadRequest} >{'Buscar projetos'}</button>
             <br />
-            {'dados dos projetos: ' + JSON.stringify(roomsReducer.data, null, 4)}
+            {'--------------------------------------------------------------------------------------------------------------------------------------------'}
+            <br />
+            {roomsReducer.dataAsync?.map(room => {
+                return <>
+                    <div key={room.id}>
+                        <>
+                            {"Sala id:" + room.id}
+                            <br />
+
+                            {"Sala name:" + room.name}
+                            <br />
+                            <br />
+
+                        </>
+                    </div >
+                </>
+            })
+            }
+            {'--------------------------------------------------------------------------------------------------------------------------------------------'}
+
+            <br />
+            <br />
+            <button onClick={actions?.roomsActions?.syncStop} >{'stop'}</button>
+            <button onClick={click} >{'start'}</button>
+
+            <br />
+            <br />
+            <br />
+            {'dado usuario ' + JSON.stringify(authReducer?.data?.email, null, 4)}
             <br />
             <br />
             <button onClick={actions?.authActions?.loadRequest} >{'Logar'}</button>
             <button onClick={actions?.authActions?.loadLogoff} >{'Logoff'}</button>
             <br />
-            {'dado usuario ' + JSON.stringify(authReducer?.data?.displayName, null, 4)}
             <br />
         </div >
 

@@ -6,6 +6,7 @@ interface StateProps {
 
 interface DispatchProps {
     loadRequest(): void;
+    loadRequestCredential(): void;
 }
 
 interface OwnProps {

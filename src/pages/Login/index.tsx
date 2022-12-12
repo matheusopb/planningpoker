@@ -7,7 +7,7 @@ import *  as AuthActions from '../../store/ducks/auth/actions'
 import { LoginProps } from "./models";
 import { useNavigate } from 'react-router-dom';
 
-const SignIn = ({ loadRequest, authReducer }: LoginProps) => {
+const SignIn = ({ loadRequest, authReducer, loadRequestCredential }: LoginProps) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false)
     useEffect(() => {
@@ -17,19 +17,31 @@ const SignIn = ({ loadRequest, authReducer }: LoginProps) => {
         }
     }, [authReducer?.data, authReducer?.loading, loading, navigate])
 
+    useEffect(() => {
+        loadRequestCredential()
+        setLoading(true)
+    }, [])
+
     return (
-        <div>
-            <h1>Sign In</h1>
-            <button
-                onClick={(event) => {
-                    event.preventDefault();
-                    loadRequest()
-                    setLoading(true)
-                }}
-            >
-                Sign In with Google
-            </button>
-        </div>
+
+        loading ? <>
+            <h1>carregando</h1>
+        </> : <>
+            <div>
+                <h1>Sign In</h1>
+                <button
+                    onClick={(event) => {
+                        event.preventDefault();
+                        loadRequest()
+
+                        setLoading(true)
+                    }}
+                >
+
+                    Sign In with Google
+                </button>
+            </div>
+        </>
     );
 };
 

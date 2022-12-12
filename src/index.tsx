@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Provider } from 'react-redux';
 import store from './store';
-import { ReactReduxFirebaseProvider } from "react-redux-firebase";
-import { rrfProps } from './settings/env';
 
 
 const root = ReactDOM.createRoot(
@@ -14,9 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ReactReduxFirebaseProvider {...rrfProps}>
-        <App />
-      </ReactReduxFirebaseProvider>
+      <App />
     </Provider>
   </React.StrictMode>
 
