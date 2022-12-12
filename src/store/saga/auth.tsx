@@ -41,6 +41,7 @@ export function* loginWithCredential(): SagaIterator {
             yield put(loadSuccess(result.user))
         }
     } catch (err) {
+        console.log('error')
         yield put(loadFailure())
     }
 }

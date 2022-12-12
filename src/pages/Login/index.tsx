@@ -10,8 +10,15 @@ import { useNavigate } from 'react-router-dom';
 const SignIn = ({ loadRequest, authReducer, loadRequestCredential }: LoginProps) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState<boolean>(false)
+
     useEffect(() => {
-        if (loading && !authReducer?.loading && authReducer?.data) {
+        if (loading && !authReducer?.loading && authReducer?.error === true) {
+            setLoading(false)
+        }
+    }, [authReducer?.error, authReducer?.loading, loading])
+
+    useEffect(() => {
+        if (!authReducer?.loading && authReducer?.data) {
             navigate('/rooms')
             setLoading(false)
         }
@@ -20,7 +27,7 @@ const SignIn = ({ loadRequest, authReducer, loadRequestCredential }: LoginProps)
     useEffect(() => {
         loadRequestCredential()
         setLoading(true)
-    }, [])
+    }, [loadRequestCredential])
 
     return (
 
