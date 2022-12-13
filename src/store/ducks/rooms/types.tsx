@@ -9,16 +9,22 @@ export enum RoomsTypes {
     SYNC_DATA = '@rooms/SYNC_DATA',
     SYNC_STOP = '@rooms/SYNC_STOP',
     SYNC_SUCCESS = '@rooms/SYNC_SUCCESS',
+    ADD_DOCUMENT = '@rooms/ADD_DOCUMENT',
+    RM_DOCUMENT = '@rooms/RM_DOCUMENT'
+
 }
 
 /**
  * Data types
  */
 export interface Room {
-    id: number,
+    id: string,
     name: string
 }
-
+export interface PartialRoom {
+    id?: string,
+    name?: string
+}
 /**
  * State types
  */
@@ -34,5 +40,7 @@ export interface RoomsActions {
     loadRequest(): void,
     syncStop(): void,
     syncData(): void,
+    addData(data: PartialRoom): void,
+    rmDocument(id: string): void,
 
 }

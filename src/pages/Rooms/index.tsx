@@ -4,6 +4,8 @@ import { ApplicationState } from '../../store';
 import { RoomsProps } from './models';
 import *  as AuthActions from '../../store/ducks/auth/actions'
 import *  as RoomsActions from '../../store/ducks/rooms/actions'
+import { useState } from 'react';
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 
 function Rooms({
@@ -11,29 +13,49 @@ function Rooms({
     authReducer,
     actions,
 }: RoomsProps) {
+    const navigate = useNavigate();
 
+    const [name, setName] = useState<string>(``);
     function click() {
-        console.log('click')
         actions?.roomsActions?.syncData()
     }
+    function goToRoom(id: string) {
+        navigate(`/room?id=${id}`)
+
+    }
+    const [queryParameters] = useSearchParams()
 
     return (
         <div>
             {'dados dos projetos: ' + JSON.stringify(roomsReducer.data, null, 4)}
             <br />
             <br />
-            <button onClick={actions?.roomsActions?.loadRequest} >{'Buscar projetos'}</button>
+            <button onClick={actions?.roomsActions?.loadRequest} >{'Buscar salas sync'}</button>
+            <br />
+            <br />
+
+            <input placeholder='nome da sala' type="text" name="roomName" value={name} onChange={(e) => setName(e.target.value)} />
+            <br />
+
+            <button onClick={() => { actions?.roomsActions?.addData({ name: name }) }} >{'add sala'}</button>
+
             <br />
             {'--------------------------------------------------------------------------------------------------------------------------------------------'}
             <br />
+            <br />
+
             {roomsReducer.dataAsync?.map(room => {
                 return <>
                     <div key={room.id}>
                         <>
-                            {"Sala id:" + room.id}
+                            {"Sala id: " + room.id}
                             <br />
 
-                            {"Sala name:" + room.name}
+                            {"Sala name: " + room.name}
+                            <br />
+                            <button onClick={() => { actions?.roomsActions?.rmDocument(room.id) }} >{'Deletar sala'}</button>
+                            <button onClick={() => { goToRoom(room.id) }} >{'Ir para sala'}</button>
+
                             <br />
                             <br />
 

@@ -40,11 +40,9 @@ const SignIn = ({ loadRequest, authReducer, loadRequestCredential }: LoginProps)
                     onClick={(event) => {
                         event.preventDefault();
                         loadRequest()
-
                         setLoading(true)
                     }}
                 >
-
                     Sign In with Google
                 </button>
             </div>

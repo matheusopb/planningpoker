@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom
 import { ApplicationState } from './store';
 import Rooms from './pages/Rooms';
 import Header from './components/Header';
+import Room from './pages/Room';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import { connect } from "react-redux";
@@ -16,6 +17,7 @@ function App({ authReducer }: { authReducer: AuthState }) {
           <Route path="*" element={<NotFound />} />
           <Route element={<ProtectedRoute user={authReducer.data} />}>
             <Route path="rooms" element={<Rooms />} />
+            <Route path="room" element={<Room />} />
           </Route>
         </Route>
       </Routes>
