@@ -14,8 +14,9 @@ const firebaseConfig = {
   appId: "1:788451711448:web:7553f054b1df57d93ebaad"
 };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig)
+const app = firebase.initializeApp(firebaseConfig)
+const db = firebase.firestore();
 
-const rsf = new ReduxSagaFirebase(firebaseApp)
+const rsf = new ReduxSagaFirebase(app)
 
-export default rsf
+export { rsf, db }

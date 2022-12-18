@@ -7,12 +7,14 @@ import rootSaga from './saga';
 import { AuthState } from './ducks/auth/types';
 import { RoomState } from './ducks/room/types';
 import { UserState } from './ducks/user/types';
+import { MemberState } from './ducks/member/types';
 
 export interface ApplicationState {
     roomsReducer: RoomsState,
     roomReducer: RoomState,
     authReducer: AuthState,
-    userReducer: UserState
+    userReducer: UserState,
+    memberReducer: MemberState
 }
 
 const sagaMiddleware = createSagaMiddleware();

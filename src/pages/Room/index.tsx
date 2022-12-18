@@ -1,84 +1,114 @@
+
+//Libs
 import { bindActionCreators, Dispatch } from '@reduxjs/toolkit';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
-import { RoomProps } from './models';
-import *  as RoomActions from '../../store/ducks/room/actions'
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from "react-router-dom";
-import userEvent from '@testing-library/user-event';
+import { useSearchParams } from "react-router-dom";
 
+//Js
+import { RoomProps } from './models';
+import { Member, MemberType } from '../../store/ducks/member/types';
+
+//Actions
+import *  as RoomActions from '../../store/ducks/room/actions'
+import *  as MemberActions from '../../store/ducks/member/actions'
 
 function Room({
     roomReducer,
     userReducer,
+    memberReducer,
     actions,
 }: RoomProps) {
-    const navigate = useNavigate();
     const [queryParameters] = useSearchParams()
     const [roomId] = useState<string>(queryParameters.get("id") || '');
-    const [loading, setLoading] = useState<boolean>(roomReducer.loading);
+    const [myAccess, setMyAccess] = useState<MemberType | undefined>();
 
     useEffect(() => {
-        actions?.roomActions?.syncData(roomId)
-        actions?.roomActions?.syncUsersData(roomId)
-    }, [actions?.roomActions, roomId])
+        actions?.room?.syncData(roomId)
+        actions?.member?.syncData(roomId)
+    }, [])
 
     useEffect(() => {
-        if (!roomReducer.loading && roomReducer.users.length && !roomReducer.users.find(roomUser => roomUser.id === userReducer.user?.id)) {
-            console.log('console.log')
+
+        const myDate: Member | undefined = memberReducer.members.find(member => member.userId === userReducer.user?.id)
+        if (!memberReducer.loadings.data && memberReducer.members.length && !myDate && userReducer.user) {
+            actions?.member?.addData({
+                roomId: roomId,
+                type: 'request',
+                userData: userReducer.user,
+                userId: userReducer.user?.id
+            })
+        } else {
+            setMyAccess(myDate?.type)
         }
-    }, [roomReducer.loading, roomReducer.users, userReducer.user?.id])
+    }, [memberReducer.members, memberReducer.loadings.data, userReducer.user?.id])
 
-    useEffect(() => {
-        setLoading(roomReducer.loading)
-    }, [roomReducer.loading])
+    function aproveRequest(member: Member) {
+        actions?.member?.editData({ ...member, type: 'user' })
+    }
 
+    function beAdmin(member: Member) {
+        actions?.member?.editData({ ...member, type: 'admin' })
+    }
+
+    function removeAccess(member: Member) {
+        actions?.member?.editData({ ...member, type: 'request' })
+    }
 
 
     return (
-        !loading ?
-            <div>
-                <br />
-                {'sala: ' + roomReducer.room?.id}
-                <br />
-                {'Nome: ' + roomReducer.room?.name}
-                <br />
-                <br />
-                {'-------------users-----------------'}
-                <br />
-                <br />
+        // !loading ?
+        <div>
+            <br />
+            {'sala: ' + roomReducer.room?.id}
+            <br />
+            {'Nome: ' + roomReducer.room?.name}
+            <br />
+            <br />
+            {'-------------users-----------------'}
+            <br />
+            <br />
 
-                {roomReducer.users?.map(user => {
-                    return <>
-                        <div key={user.id}>
-                            <>
-                                {"id: " + user.id}
+            {memberReducer.members?.map(member => {
+                return <>
+                    <div key={member.userId}>
+                        <>
+                            {"id: " + member.userId}
+                            <br />
+                            {"name: " + member.userData.name}
+                            <br />
+                            {"type: " + member.type}
+                            <br />
+                            <br />
+                            {!(myAccess === 'admin' && userReducer.user?.id !== member.userId) ? null : <>
+                                <button onClick={() => { aproveRequest(member) }} >{'Aprovar'}</button>
+                                <button onClick={() => { beAdmin(member) }} >{'Admin'}</button>
+                                <button onClick={() => { removeAccess(member) }} >{'Remover'}</button>
                                 <br />
-                                {"name: " + user.name}
                                 <br />
-                                {"type: " + user.type}
-                                <br />
-                                <br />
-
                             </>
-                        </div >
-                    </>
-                })
-                }
-                {'-------------users-----------------'}
-
-            </div > :
-            <div>
-                <h1>{'Carregando'}</h1>
-            </div>
+                            }
+                        </>
+                    </div >
+                </>
+            })
+            }
+            {'----------------------------------'}
+        </div>
+        // {/* </div > :
+        // <div>
+        //     <h1>{'Carregando'}</h1>
+        // </div> */}
 
     );
 }
 
 
-const mapStateToProps = ({ roomReducer, userReducer }: ApplicationState) => ({
+const mapStateToProps = ({ roomReducer, userReducer, memberReducer }: ApplicationState) => ({
     roomReducer: roomReducer,
-    userReducer: userReducer
+    userReducer: userReducer,
+    memberReducer: memberReducer
 });
 
 
@@ -86,7 +116,8 @@ const mapStateToProps = ({ roomReducer, userReducer }: ApplicationState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         actions: {
-            roomActions: bindActionCreators(RoomActions, dispatch),
+            room: bindActionCreators(RoomActions, dispatch),
+            member: bindActionCreators(MemberActions, dispatch),
         }
     };
 }

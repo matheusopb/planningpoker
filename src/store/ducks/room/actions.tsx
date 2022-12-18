@@ -1,5 +1,5 @@
 import { action } from 'typesafe-actions'
-import { Room, RoomTypes, User } from './types'
+import { Room, RoomTypes } from './types'
 
 
 export const syncData = (id: string) => action(RoomTypes.SYNC_DATA, id)
@@ -8,18 +8,25 @@ export const syncSuccess = (data: Room) => action(RoomTypes.SYNC_SUCCESS, data)
 
 export const syncStop = () => action(RoomTypes.SYNC_STOP)
 
-export const syncUsersData = (id: string) => action(RoomTypes.SYNC_USERS_DATA, id)
+export const syncError = () => action(RoomTypes.SYNC_ERROR)
 
-export const syncUsersSuccess = (user: User[]) => action(RoomTypes.SYNC_USERS_SUCCESS, user)
 
-export const syncUsersAdd = (user: User[]) => action(RoomTypes.SYNC_USERS_ADD, user)
+export const addData = (name: string) => action(RoomTypes.ADD_DATA, name)
 
-export const syncUsersEdit = (user: User[]) => action(RoomTypes.SYNC_USERS_EDIT, user)
+export const addSuccess = () => action(RoomTypes.ADD_SUCCESS)
 
-export const syncUsersStop = () => action(RoomTypes.SYNC_USERS_STOP)
+export const addError = () => action(RoomTypes.ADD_ERROR)
 
-export const syncVotesData = () => action(RoomTypes.SYNC_VOTES_DATA)
 
-export const syncVotesSuccess = (user: User[]) => action(RoomTypes.SYNC_VOTES_SUCCESS, user)
+export const editData = (room: Room) => action(RoomTypes.EDIT_DATA, room)
 
-export const syncVotesStop = () => action(RoomTypes.SYNC_VOTES_STOP)
+export const editSuccess = () => action(RoomTypes.EDIT_SUCCESS)
+
+export const editError = () => action(RoomTypes.EDIT_ERROR)
+
+
+export const rmData = (id: string) => action(RoomTypes.RM_DATA, id)
+
+export const rmSuccess = () => action(RoomTypes.RM_SUCCESS)
+
+export const rmError = () => action(RoomTypes.RM_ERROR)

@@ -19,7 +19,7 @@ const SignIn = ({ loadRequest, authReducer, loadRequestCredential }: LoginProps)
 
     useEffect(() => {
         if (!authReducer?.loading && authReducer?.data) {
-            navigate('/rooms')
+            navigate('/home')
             setLoading(false)
         }
     }, [authReducer?.data, authReducer?.loading, loading, navigate])

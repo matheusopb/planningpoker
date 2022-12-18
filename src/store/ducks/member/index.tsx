@@ -1,8 +1,8 @@
-import { RoomState, RoomTypes } from "./types";
+import { MemberState, MemberTypes } from "./types";
 import { Reducer } from 'redux';
 
-const INICIAL_STATE: RoomState = {
-    room: undefined,
+const INICIAL_STATE: MemberState = {
+    members: [],
     errors: {
         data: false,
         add: false,
@@ -17,37 +17,36 @@ const INICIAL_STATE: RoomState = {
     },
 }
 
-const reducer: Reducer<RoomState> = (state = INICIAL_STATE, action) => {
+const reducer: Reducer<MemberState> = (state = INICIAL_STATE, action) => {
     switch (action.type) {
-        case RoomTypes.SYNC_DATA:
-            return { ...state, loadings: { ...state.loadings, data: true }, errors: { ...state.errors, data: false }, room: undefined };
-        case RoomTypes.SYNC_SUCCESS:
-            return { ...state, loadings: { ...state.loadings, data: false }, errors: { ...state.errors, data: false }, room: action.payload };
-        case RoomTypes.SYNC_STOP:
-            return { ...state, loadings: { ...state.loadings, data: false }, errors: { ...state.errors, data: false }, room: undefined };
-        case RoomTypes.SYNC_ERROR:
-            return { ...state, loadings: { ...state.loadings, data: false }, errors: { ...state.errors, data: true }, room: undefined };
+        case MemberTypes.SYNC_DATA:
+            return { ...state, loadings: { ...state.loadings, data: true }, errors: { ...state.errors, data: false }, members: [] };
+        case MemberTypes.SYNC_SUCCESS:
+            return { ...state, loadings: { ...state.loadings, data: false }, errors: { ...state.errors, data: false }, members: action.payload };
+        case MemberTypes.SYNC_STOP:
+            return { ...state, loadings: { ...state.loadings, data: false }, errors: { ...state.errors, data: false }, members: [] };
+        case MemberTypes.SYNC_ERROR:
+            return { ...state, loadings: { ...state.loadings, data: false }, errors: { ...state.errors, data: true }, members: [] };
 
-        case RoomTypes.ADD_DATA:
+        case MemberTypes.ADD_DATA:
             return { ...state, loadings: { ...state.loadings, add: true }, errors: { ...state.errors, add: false } };
-        case RoomTypes.ADD_ERROR:
+        case MemberTypes.ADD_ERROR:
             return { ...state, loadings: { ...state.loadings, add: false }, errors: { ...state.errors, add: true } };
-        case RoomTypes.ADD_SUCCESS:
+        case MemberTypes.ADD_SUCCESS:
             return { ...state, loadings: { ...state.loadings, add: false }, errors: { ...state.errors, add: false } };
 
-        case RoomTypes.EDIT_DATA:
+        case MemberTypes.EDIT_DATA:
             return { ...state, loadings: { ...state.loadings, edit: true }, errors: { ...state.errors, edit: false } };
-        case RoomTypes.EDIT_ERROR:
+        case MemberTypes.EDIT_ERROR:
             return { ...state, loadings: { ...state.loadings, edit: false }, errors: { ...state.errors, edit: true } };
-        case RoomTypes.EDIT_SUCCESS:
+        case MemberTypes.EDIT_SUCCESS:
             return { ...state, loadings: { ...state.loadings, edit: false }, errors: { ...state.errors, edit: false } };
 
-
-        case RoomTypes.RM_DATA:
+        case MemberTypes.RM_DATA:
             return { ...state, loadings: { ...state.loadings, rm: true }, errors: { ...state.errors, rm: false } };
-        case RoomTypes.RM_ERROR:
+        case MemberTypes.RM_ERROR:
             return { ...state, loadings: { ...state.loadings, rm: false }, errors: { ...state.errors, rm: true } };
-        case RoomTypes.RM_SUCCESS:
+        case MemberTypes.RM_SUCCESS:
             return { ...state, loadings: { ...state.loadings, rm: false }, errors: { ...state.errors, rm: false } };
         default:
             return state;

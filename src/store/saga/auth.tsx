@@ -4,7 +4,7 @@ import firebase from 'firebase/compat/app';
 import { loadSuccess, loadFailure } from "../ducks/auth/actions";
 import secureLocalStorage from "react-secure-storage";
 import { OAuthCredential } from "firebase/auth";
-import rsf from '../../settings/env'
+import { rsf } from '../../settings/env'
 import { UserState } from "../ducks/user/types";
 import { getUser } from "./functions";
 import { addData, loadRequest, syncData } from "../ducks/user/actions";
@@ -15,10 +15,8 @@ export function* loginFb(): SagaIterator {
         if (result === 'error') {
             throw new Error("Erro ao fazer login")
         } else {
-
             yield put(loadRequest(result.user.uid))
             yield put(syncData(result.user.uid))
-
             const { timeout, failure } = yield race({
                 failure: take('@user/LOAD_FAILURE'),
                 success: take('@user/LOAD_SUCCESS'),
@@ -28,11 +26,7 @@ export function* loginFb(): SagaIterator {
                 throw new Error(" erro ao buscar usuario");
             }
             let { staticUser }: UserState = yield select(getUser);
-            console.log('staticUser', staticUser)
-
             if (staticUser === undefined) {
-                console.log('criando user',)
-
                 yield put(addData({
                     email: result.user.email,
                     id: result.user?.uid,

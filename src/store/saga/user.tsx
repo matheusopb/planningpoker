@@ -1,9 +1,9 @@
 import { call, cancel, fork, put, select, take } from 'redux-saga/effects';
 import { addData, syncData, syncStop, syncSuccess, loadFailure, loadSuccess } from "../ducks/user/actions"
 import { SagaIterator } from "redux-saga"
-import rsf from '../../settings/env'
+import { rsf, db } from '../../settings/env'
 import { User } from '../ducks/user/types';
-
+import { doc, getDoc } from "firebase/firestore";
 
 export function* setDocument({ payload }: any): any {
     try {
@@ -28,7 +28,6 @@ export function* rmDocument({ payload }: any) {
 }
 
 export const userTransformer = (user: any) => {
-    console.log('user', user)
     return {
         id: user.id,
         ...user.data(),
@@ -48,13 +47,10 @@ export function* getUserAsync({ payload }: any): SagaIterator {
 
 export function* getUser({ payload }: any): SagaIterator {
     try {
-        console.log('sagas getUser', payload)
-        const snapshot = yield call(rsf.firestore.getDocument, `users/${payload}`);
+        const snapshot = yield call(rsf.firestore.getDocument, db.collection('users').doc(payload));
         let user: User | undefined = snapshot.data()
-
         yield put(loadSuccess(user));
     } catch (error) {
-        console.log('error', error)
         yield put(loadFailure());
     }
 }
