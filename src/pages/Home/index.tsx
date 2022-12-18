@@ -26,7 +26,7 @@ function Home({
     const [name, setName] = useState<string>(``);
 
     function goToRoom(id: string) {
-        navigate(`/room?id=${id}`)
+        navigate(`/room/${id}`)
     }
 
     function addRoom() {

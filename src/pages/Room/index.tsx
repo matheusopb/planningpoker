@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from '@reduxjs/toolkit';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 //Js
 import { RoomProps } from './models';
@@ -20,8 +20,9 @@ function Room({
     memberReducer,
     actions,
 }: RoomProps) {
-    const [queryParameters] = useSearchParams()
-    const [roomId] = useState<string>(queryParameters.get("id") || '');
+    let { id } = useParams<"id">();
+
+    const [roomId] = useState<string>(id || '');
     const [myAccess, setMyAccess] = useState<MemberType | undefined>();
 
     useEffect(() => {

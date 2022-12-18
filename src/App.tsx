@@ -17,7 +17,7 @@ function App({ authReducer }: { authReducer: AuthState }) {
           <Route path="*" element={<NotFound />} />
           <Route element={<ProtectedRoute user={authReducer.data} />}>
             <Route path="home" element={<Home />} />
-            <Route path="room" element={<Room />} />
+            <Route path="room/:id" element={<Room />} />
           </Route>
         </Route>
       </Routes>
