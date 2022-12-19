@@ -16,6 +16,12 @@ import *  as MemberActions from '../../store/ducks/member/actions'
 import *  as VoteActions from '../../store/ducks/vote/actions'
 import { Vote } from '../../store/ducks/vote/types';
 
+
+type ObjectMember = {
+    [key: string]: Member;
+};
+
+
 function Room({
     roomReducer,
     userReducer,
@@ -31,15 +37,26 @@ function Room({
     const [myVote, setMyVote] = useState<number>(0);
     const [alreadyVoted, setAlreadyVoted] = useState<Vote | undefined>();
 
+    const [users, setUsers] = useState<ObjectMember>();
+
     useEffect(() => {
         actions?.room?.syncData(roomId)
         actions?.member?.syncData(roomId)
-        actions?.vote?.syncData(roomId, roomReducer?.room?.qtdVotes ? roomReducer.room.qtdVotes : 1)
+        actions?.vote?.syncData(roomId, roomReducer?.room?.showVote ? roomReducer.room.showVote : 1)
     }, [])
 
+
     useEffect(() => {
-        actions?.vote?.syncData(roomId, roomReducer?.room?.qtdVotes ? roomReducer.room.qtdVotes : 1)
-    }, [roomReducer.room?.qtdVotes])
+
+        var object: ObjectMember = memberReducer.members.reduce((obj: ObjectMember, item) => ((obj[item.userId] = item), obj), {});
+        object = Object.assign({ id: id }, object);
+        console.log(object);
+        setUsers(object)
+    }, [id, memberReducer.members])
+
+    useEffect(() => {
+        actions?.vote?.syncData(roomId, roomReducer?.room?.showVote ? roomReducer.room.showVote : 1)
+    }, [roomReducer.room?.showVote])
 
     useEffect(() => {
         const data: Vote | undefined = voteReducer.votes.find(votes => votes.userId === userReducer.user?.id)
@@ -94,13 +111,13 @@ function Room({
 
     function addNumberVote() {
         if (roomReducer.room) {
-            actions?.room?.editData({ ...roomReducer.room, qtdVotes: roomReducer?.room?.qtdVotes ? roomReducer.room.qtdVotes + 1 : 1 })
+            actions?.room?.editData({ ...roomReducer.room, showVote: roomReducer?.room?.showVote ? roomReducer.room.showVote + 1 : 1 })
         }
     }
 
     function subNumerVote() {
-        if (roomReducer.room && roomReducer?.room.qtdVotes && roomReducer?.room.qtdVotes > 1) {
-            actions?.room?.editData({ ...roomReducer.room, qtdVotes: roomReducer?.room?.qtdVotes ? roomReducer.room.qtdVotes - 1 : 1 })
+        if (roomReducer.room && roomReducer?.room.showVote && roomReducer?.room.showVote > 1) {
+            actions?.room?.editData({ ...roomReducer.room, showVote: roomReducer?.room?.showVote ? roomReducer.room.showVote - 1 : 1 })
         }
     }
 
@@ -115,7 +132,7 @@ function Room({
             actions?.vote.editData({ ...alreadyVoted, vote: vote })
         } else {
             if (roomReducer.room && userReducer.user) {
-                actions?.vote.addData({ roomId: roomId, round: roomReducer.room.qtdVotes ?? 1, userId: userReducer.user?.id, vote: vote })
+                actions?.vote.addData({ roomId: roomId, round: roomReducer.room.showVote ?? 1, userId: userReducer.user?.id, vote: vote })
             }
         }
     }
@@ -129,7 +146,7 @@ function Room({
             <br />
             {'Nome: ' + roomReducer.room?.name}
             <br />
-            {'NumberVote: ' + roomReducer.room?.qtdVotes}
+            {'NumberVote: ' + roomReducer.room?.showVote}
             <br />
             {'Nome: ' + roomReducer.room?.hideVotes}
             <br />
@@ -196,10 +213,10 @@ function Room({
                 return <>
                     <div key={vote.userId}>
                         <>
-                            {"id: " + vote.id}
+                            {"name: " + users?.[vote.userId].userData.name}
                             <br />
                             <br />
-                            {"value: " + vote.vote}
+                            {"vote: " + (roomReducer.room?.hideVotes ? vote.vote : '***')}
                             <br />
                             <br />
                             <br />
@@ -208,7 +225,14 @@ function Room({
                 </>
             })
             }
-            {'----------------------------------'}
+            {!voteReducer?.votes.length ? null : <>
+                {'-------------media-----------------'}
+                <br />
+                {roomReducer.room?.hideVotes ? (voteReducer?.votes?.reduce((total, next) => total + next.vote, 0) / voteReducer?.votes.length) : '***'}
+                <br />
+                {'----------------------------------'}
+            </>}
+
         </div>
     );
 }

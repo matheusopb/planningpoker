@@ -24,7 +24,7 @@ export enum RoomTypes {
 export interface Room {
     id: string,
     name: string,
-    qtdVotes?: number,
+    showVote?: number,
     hideVotes?: boolean
 }
 
