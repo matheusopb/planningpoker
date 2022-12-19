@@ -1,18 +1,20 @@
 import { RoomState, RoomActions } from "../../../store/ducks/room/types"
 import { MemberActions, MemberState } from "../../../store/ducks/member/types"
 import { UserState } from "../../../store/ducks/user/types"
+import { VoteActions, VoteState } from "../../../store/ducks/vote/types"
 
 interface StateProps {
     roomReducer: RoomState,
     userReducer: UserState,
-    memberReducer: MemberState
-
+    memberReducer: MemberState,
+    voteReducer: VoteState
 }
 
 interface DispatchProps {
     actions?: {
         room?: RoomActions,
-        member: MemberActions
+        member: MemberActions,
+        vote: VoteActions
     }
 }
 

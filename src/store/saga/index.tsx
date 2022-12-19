@@ -7,14 +7,15 @@ import { RoomTypes } from '../ducks/room/types';
 import { UserTypes } from '../ducks/user/types';
 import { AuthTypes } from '../ducks/auth/types';
 import { MemberTypes } from '../ducks/member/types';
+import { VoteTypes } from '../ducks/vote/types';
 
 //Sagas
 import { getRooms } from './rooms';
-import { getRoom, addRoom, rmRoom } from './room';
+import { getRoom, addRoom, rmRoom, editRoom } from './room';
 import { getUser, getUserAsync, setDocument } from './user';
 import { loginFb, loginOutFb, loginWithCredential } from './auth';
 import { addMember, editMember, getMembers, rmMember } from './member';
-import { editData } from '../ducks/member/actions';
+import { addVote, editVote, getVotes, rmVote } from './vote';
 
 export default function* rootSaga(): any {
     return yield all([
@@ -38,6 +39,7 @@ export default function* rootSaga(): any {
         takeLatest(RoomTypes.SYNC_DATA, getRoom),
         takeLatest(RoomTypes.ADD_DATA, addRoom),
         takeLatest(RoomTypes.RM_DATA, rmRoom),
+        takeLatest(RoomTypes.EDIT_DATA, editRoom),
 
 
         //Member sagas
@@ -46,6 +48,11 @@ export default function* rootSaga(): any {
         takeLatest(MemberTypes.EDIT_DATA, editMember),
         takeLatest(MemberTypes.RM_DATA, rmMember),
 
+        //Member sagas
+        takeLatest(VoteTypes.SYNC_DATA, getVotes),
+        takeLatest(VoteTypes.ADD_DATA, addVote),
+        takeLatest(VoteTypes.EDIT_DATA, editVote),
+        takeLatest(VoteTypes.RM_DATA, rmVote),
 
 
     ])

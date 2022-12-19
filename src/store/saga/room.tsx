@@ -55,6 +55,7 @@ export function* addRoom({ payload }: any): SagaIterator {
 
 export function* editRoom({ payload }: any): SagaIterator {
     try {
+        console.log('editRoom: ')
         yield call(rsf.firestore.setDocument,
             `rooms/${payload?.id}`,
             payload,

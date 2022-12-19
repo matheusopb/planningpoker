@@ -23,7 +23,9 @@ export enum RoomTypes {
  */
 export interface Room {
     id: string,
-    name: string
+    name: string,
+    qtdVotes?: number,
+    hideVotes?: boolean
 }
 
 /**
@@ -50,6 +52,5 @@ export interface RoomActions {
     syncData(id: string): void,
     addData(name: string): void,
     editData(room: Room): void,
-
     rmData(id: string): void,
 }

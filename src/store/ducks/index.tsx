@@ -4,6 +4,7 @@ import roomReducer from './room';
 import userReducer from './user';
 import authReducer from './auth';
 import memberReducer from './member';
+import voteReducer from './vote';
 
 export default combineReducers({
     roomsReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
     roomReducer,
     userReducer,
     memberReducer,
+    voteReducer,
 });

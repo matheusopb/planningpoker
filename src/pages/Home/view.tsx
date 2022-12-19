@@ -14,10 +14,8 @@ function HomeView({
         <div>
             <input placeholder='nome da sala' type="text" name="roomName" value={name} onChange={(e) => setName(e.target.value)} />
             <br />
-
             <button onClick={() => { addRoom() }} >{'add sala'}</button>
             <br />
-
             <br />
             {'salas'}
             <br />
@@ -30,15 +28,12 @@ function HomeView({
                     <>
                         {"Sala id: " + room.id}
                         <br />
-
                         {"Sala name: " + room.name}
                         <br />
                         <button onClick={() => { rmRoom(room.id) }} >{'Deletar sala'}</button>
                         <button onClick={() => { goToRoom(room.id) }} >{'Ir para sala'}</button>
-
                         <br />
                         <br />
-
                     </>
                 </div >
 
@@ -48,11 +43,8 @@ function HomeView({
             <br />
             <br />
             <br />
-
             <button onClick={() => { sair() }} >{'Sair'}</button>
-
         </div >
-
     );
 }
 
