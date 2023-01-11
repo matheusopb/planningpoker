@@ -1,24 +1,23 @@
 import { Outlet, Link } from "react-router-dom";
 
+
+import { Container, Nav, Navbar } from 'react-bootstrap';
+
 const Header = () => {
     return (
         <>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Login</Link>
-                    </li>
-                    <li>
-                        <Link to="/home">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/contact">Contact</Link>
-                    </li>
-                    <li>
-                        <Link to="/room?id=CVDpVGAYqk861POfMJwN">teste</Link>
-                    </li>
-                </ul>
-            </nav>
+
+            <Navbar bg="primary" variant="dark" style={{ zIndex: 10, }}>
+                <Container>
+                    <Navbar.Brand href="/">Navbar</Navbar.Brand>
+                    <Nav className="me-auto">
+                        <Nav.Link href="/home">Home</Nav.Link>
+                        <Nav.Link href="/contact">Contact</Nav.Link>
+                        <Nav.Link href="/">Login</Nav.Link>
+                    </Nav>
+                </Container>
+            </Navbar>
+
 
             <Outlet />
         </>

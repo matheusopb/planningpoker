@@ -7,6 +7,7 @@ import NotFound from './pages/NotFound';
 import { connect } from "react-redux";
 import { AuthState } from "./store/ducks/auth/types"
 import Home from "./pages/Home";
+import './theme.sass';
 
 function App({ authReducer }: { authReducer: AuthState }) {
   return (

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from "react-router-dom";
+import { Button } from 'react-bootstrap';
 
 //Js
 import { RoomProps } from './models';
@@ -151,6 +152,8 @@ function Room({
             {'Nome: ' + roomReducer.room?.hideVotes}
             <br />
             <br />
+            <Button variant="secondary">Secondary</Button>{' '}
+
             {!(myAccess === 'admin') ? null : <>
                 <button onClick={addNumberVote} >{'+'}</button>
                 <br />
