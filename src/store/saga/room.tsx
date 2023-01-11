@@ -37,6 +37,8 @@ export const roomTransformer = (room: any) => {
 
 export function* addRoom({ payload }: any): SagaIterator {
     try {
+        yield put(loadingAddUpdate())
+
         const { id } = yield call(rsf.firestore.addDocument, 'rooms', { name: payload });
         let { user }: UserState = yield select(getUser);
         yield call(rsf.firestore.addDocument,
